@@ -16,6 +16,8 @@ html, body {
   font-family: Arial, sans-serif;
 }
 
+/* ================= SCENE ================= */
+
 .scene {
   width: 100vw;
   height: 100vh;
@@ -56,7 +58,13 @@ html, body {
   z-index:9999;
 }
 
-/* HITBOX */
+@keyframes blink {
+  from { opacity:0.6; }
+  to { opacity:1; }
+}
+
+/* ================= HITBOX ================= */
+
 .hitbox{
   position:absolute;
   width:80px;
@@ -70,50 +78,37 @@ html, body {
   z-index:10000;
 }
 
-@keyframes blink {
-  from { opacity:0.6; }
-  to { opacity:1; }
+.hitbox-follow{
+  position:fixed;
+  width:80px;
+  height:80px;
+  border-radius:50%;
+  background:transparent;
+  pointer-events:auto;
+  z-index:999999;
+  display:none;
 }
+
+/* ================= POPUP WARNING ================= */
 
 .popup {
   position: fixed;
-  text-align: center;
   top: 50%;
   left: 50%;
   width:85%;
   height:90%;
   transform: translate(-50%, -50%);
-  background: #111;
-  border: 2px solid red;
-  padding: 25px 35px;
-  border-radius: 12px;
-  text-align: center;
-  color: white;
-  display: none;
-  z-index: 999999;
-  box-shadow: 0 0 30px red;
-  animation: pop 0.3s ease;
-}
-.popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  background: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.92);
   padding: 40px 30px;
   border-radius: 20px;
-
-  text-align: center; /* SEMUA TEKS TENGAH */
+  text-align: center;
   color: white;
-
+  border: 2px solid red;
   box-shadow:
     0 0 30px rgba(255,0,0,0.5),
     0 0 60px rgba(255,0,0,0.3);
-
   z-index: 9999999;
-}
-.popup {
+  display:none;
   animation: popupFade 0.4s ease-out;
 }
 
@@ -127,149 +122,235 @@ html, body {
     transform: translate(-50%, -50%) scale(1);
   }
 }
+
 .popup p {
   margin-top: 10px;
   font-size: 18px;
   line-height: 1.6;
-
   letter-spacing: 1px;
   font-weight: 500;
-
   color: #f5f5f5;
-
-  text-shadow:
-    0 0 5px rgba(255,255,255,0.3);
+  text-shadow: 0 0 5px rgba(255,255,255,0.3);
 }
+
 .popup i {
   font-size: 110px;
   margin-top: 50%;
   color: #ff2b2b;
   margin-bottom: 20px;
-
-  /* OUTLINE PUTIH */
   -webkit-text-stroke: 2px white;
-
-  /* GLOW */
   text-shadow:
     0 0 10px #ff0000,
     0 0 25px #ff0000,
     0 0 50px rgba(255,0,0,0.8);
-
   filter: drop-shadow(0 0 25px red);
-
   animation: pulseWarning 1.5s infinite ease-in-out;
 }
+
 @keyframes pulseWarning {
-  0% {
-    transform: scale(1);
-    text-shadow:
-      0 0 10px #ff0000,
-      0 0 25px #ff0000,
-      0 0 50px rgba(255,0,0,0.8);
-  }
-
-  50% {
-    transform: scale(1.15);
-    text-shadow:
-      0 0 20px #ff0000,
-      0 0 50px #ff0000,
-      0 0 100px rgba(255,0,0,1);
-  }
-
-  100% {
-    transform: scale(1);
-    text-shadow:
-      0 0 10px #ff0000,
-      0 0 25px #ff0000,
-      0 0 50px rgba(255,0,0,0.8);
-  }
-}
-@keyframes pop {
-  from { transform: translate(-50%, -60%) scale(0.8); opacity: 0; }
-  to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
 }
 
-button.gyro {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 99999;
-  padding: 10px 15px;
-}
-.hitbox-follow{
+/* ================= INTRO SYSTEM ================= */
+
+.center-screen{
   position:fixed;
-  width:80px;
-  height:80px;
-  border-radius:50%;
-  background:transparent;
-  pointer-events:auto;
-  z-index:999999;
-  display:none;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  text-align:center;
+  background:rgba(0,0,0,0.92);
+  z-index:99999999;
 }
+
+.intro-box{
+  max-width:600px;
+  padding:40px;
+  border-radius:20px;
+  background:linear-gradient(145deg,#111,#1a1a1a);
+  border:1px solid rgba(255,0,0,0.4);
+  box-shadow:
+    0 0 40px rgba(255,0,0,0.3),
+    0 0 80px rgba(255,0,0,0.2);
+  color:white;
+  font-size:20px;
+  line-height:1.6;
+  letter-spacing:1px;
+  opacity:0;
+  transform:translateY(60px);
+  transition:all 0.6s ease;
+}
+
+.intro-box.show{
+  opacity:1;
+  transform:translateY(0);
+}
+
+.fade-down{
+  opacity:0 !important;
+  transform:translateY(80px) !important;
+}
+
+.type-cursor{
+  display:inline-block;
+  width:2px;
+  background:red;
+  margin-left:5px;
+  animation:blinkCursor 0.8s infinite;
+  height:22px;
+  vertical-align:bottom;
+}
+
+@keyframes blinkCursor{
+  0%,100%{opacity:1}
+  50%{opacity:0}
+}
+
+.intro-btn{
+  margin-top:30px;
+  padding:14px 30px;
+  border-radius:10px;
+  border:1px solid red;
+  background:transparent;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.intro-btn:hover{
+  background:red;
+  box-shadow:0 0 20px red;
+}
+
+/* Loading */
+.loading-bar{
+  width:300px;
+  height:12px;
+  border-radius:20px;
+  background:#222;
+  overflow:hidden;
+  margin-top:30px;
+}
+
+.loading-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,red,#ff4d4d);
+  transition:width 1s linear;
+}
+
+/* Countdown */
+.countdown{
+  position:fixed;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-size:120px;
+  font-weight:bold;
+  color:red;
+  text-shadow:
+    0 0 20px red,
+    0 0 40px red,
+    0 0 80px rgba(255,0,0,0.8);
+  animation:popSoft 0.6s ease;
+  z-index:999999999;
+}
+
+@keyframes popSoft{
+  0%{transform:scale(0.5);opacity:0}
+  70%{transform:scale(1.1);opacity:1}
+  100%{transform:scale(1)}
+}
+
+/* ================= GYRO BUTTON ================= */
+
 .gyro-btn {
   position: fixed;
   bottom: 25px;
   right: 25px;
-
   padding: 14px 22px;
   font-size: 16px;
   font-weight: bold;
-
   color: white;
   background: linear-gradient(135deg, #111, #222);
-
   border: 2px solid #ff0000;
   border-radius: 12px;
-
   cursor: pointer;
   z-index: 999999;
-
   transition: all 0.3s ease;
   box-shadow:
     0 0 10px rgba(255,0,0,0.4),
     0 0 20px rgba(255,0,0,0.2);
 }
+
 .gyro-btn:hover {
   transform: scale(1.08);
   box-shadow:
     0 0 15px red,
     0 0 35px red;
 }
+
 .gyro-btn.active {
   background: linear-gradient(135deg, #ff0000, #aa0000);
   border-color: white;
-
   box-shadow:
     0 0 20px red,
     0 0 40px red,
     0 0 60px rgba(255,0,0,0.8);
-
   animation: gyroPulse 1.5s infinite ease-in-out;
 }
+
 @keyframes gyroPulse {
   0% { transform: scale(1); }
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
 }
+
 </style>
 </head>
 <body>
-<button onclick="enableGyro()" class="gyro-btn" id="gyroBtn">
-  Randomizer + Mulai
-</button>
-<!--<button class="gyro" onclick="enableGyro()">Aktifkan Gyro</button>-->
 
 <div class="scene">
   <div class="world" id="world"></div>
 </div>
 
-<div class="popup" id="popup">
-  <i class="fas fa-triangle-exclamation"></i>
-  <h2>WARNING</h2>
-  <p>selamat Kamu menemukan bintang rahasia btw</p>
-  <p>Web by t.me/arcznewera</p>
+<!-- INTRO 1 -->
+<div class="center-screen" id="intro1">
+  <div class="intro-box" id="box1">
+    <span id="text1"></span><span class="type-cursor"></span>
+    <br>
+    <button class="intro-btn" id="gasBtn" style="display:none;">Gas!</button>
+  </div>
 </div>
 
+<!-- INTRO 2 -->
+<div class="center-screen" id="intro2" style="display:none;">
+  <div class="intro-box" id="box2">
+    <span id="text2"></span><span class="type-cursor"></span>
+  </div>
+</div>
+
+<!-- INTRO 3 -->
+<div class="center-screen" id="intro3" style="display:none;">
+  <button class="intro-btn" id="mulaiBtn">Mulai?</button>
+  <div class="loading-bar" id="loadingBar" style="display:none;">
+    <div class="loading-fill" id="loadingFill"></div>
+  </div>
+</div>
+<button class="gyro-btn" id="gyroBtn" onclick="warpReload()">
+  Randomizer + Mulai
+</button>
+<div class="popup" id="popup">
+  <i class="fas fa-triangle-exclamation"></i>
+  <p>selamat Kamu menemukan bintang rahasia</p>
+  <p>Web by t.me/arcznewera</p>
+</div>
 <script>
 
 /* BLOCK INSPECT */
@@ -301,6 +382,7 @@ async function loop(){
 
 /* WARP */
 async function warpReload(){
+  openFullscreen()
   let stars = document.querySelectorAll(".star")
 
   stars.forEach(star=>{
@@ -433,6 +515,90 @@ function handleOrientation(event){
      rotateY(${rotY}deg)
      rotateZ(${rotZ}deg)`
 }
+function sleep(ms){ return new Promise(r=>setTimeout(r,ms)) }
+
+async function typeWords(element, text){
+  let words = text.split(" ")
+  element.innerHTML=""
+  for(let i=0;i<words.length;i++){
+    if(words[i]==="<jeda"){
+      let delay=parseInt(words[i+1])
+      await sleep(delay)
+      i++
+      continue
+    }
+    if(words[i].includes("<stop>")) break
+    element.innerHTML += words[i]+" "
+    await sleep(200)
+  }
+}
+
+async function startIntro(){
+  document.getElementById("box1").classList.add("show")
+
+  await typeWords(
+    document.getElementById("text1"),
+    "Hai Pendatang Baru <jeda 1200>, Apakah Kamu mengerti Cara main ini? <jeda 1200> Aku akan memberi tahu kamu Cara bermain game ini! <jeda 500> Gas ga!!!! <stop>"
+  )
+
+  document.getElementById("gasBtn").style.display="inline-block"
+}
+
+document.getElementById("gasBtn").onclick=async()=>{
+  document.getElementById("box1").classList.add("fade-down")
+  await sleep(600)
+  document.getElementById("intro1").style.display="none"
+
+  document.getElementById("intro2").style.display="flex"
+  document.getElementById("box2").classList.add("show")
+
+  await typeWords(
+    document.getElementById("text2"),
+    "Cara bermain nya cukup gampang! <jeda 600> ,cukup pencet mulai untuk meng acak bintang nya! <jeda 500> kamu perlu menemukan bintang merah dengan teliti untuk menjadi pacuan kemenangan mu! <jeda 500> saya akan mengacak & memulai ketika kamu pencet tombol mulai nya!!!! <jeda 5000>"
+  )
+
+  document.getElementById("box2").classList.add("fade-down")
+  await sleep(600)
+  document.getElementById("intro2").style.display="none"
+
+  document.getElementById("intro3").style.display="flex"
+}
+
+document.getElementById("mulaiBtn").onclick=async()=>{
+  let btn=document.getElementById("mulaiBtn")
+  openFullscreen()
+  btn.style.display="none"
+
+  let bar=document.getElementById("loadingBar")
+  let fill=document.getElementById("loadingFill")
+  bar.style.display="block"
+
+  for(let i=1;i<=10;i++){
+    fill.style.width=(i*10)+"%"
+    await sleep(1000)
+  }
+
+  document.getElementById("intro3").style.display="none"
+
+  for(let i=3;i>0;i--){
+    let cd=document.createElement("div")
+    cd.className="countdown"
+    cd.innerText=i
+    document.body.appendChild(cd)
+    await sleep(800)
+    cd.remove()
+  }
+
+  await mulai()
+}
+
+async function mulai(){
+  openFullscreen()
+  warpReload()
+  enableGyro()
+}
+
+window.onload=startIntro
 </script>
 
 </body>
