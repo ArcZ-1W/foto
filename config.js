@@ -1,9 +1,9 @@
-// NeverEra public runtime config.
+// Revics public runtime config.
 // Catatan: isi file ini akan terlihat oleh browser. Jangan taruh service role key,
 // password, token bot, atau rahasia private lain di sini.
 
-const SUPABASE_URL = 'https://hqvknahklvoqtlxigejj.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhxdmtuYWhrbHZvcXRseGlnZWpqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk4NjMzMzYsImV4cCI6MjA5NTQzOTMzNn0.viEwHHoyKIJzTsr-pdc_8jgTpZnzHQUUfCbmLS8IfLw';
+const SUPABASE_URL = 'https://ttocjfcslxqmwbvwiyto.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0b2NqZmNzbHhxbXdidndpeXRvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NDQ2NjE4OSwiZXhwIjoyMTAwMDQyMTg5fQ.owTqckpVradAY0UlZRCrgHiI1Z2SPgl3RNEvEA9W7pk';
 
 const DEFAULT_APP_ENV = {
   IMGBB_API_KEY: '8ddd584f7fb55ef50f87523ac0f14905',
@@ -21,9 +21,9 @@ const DEFAULT_APP_ENV = {
   RANDOM_CAT_IMAGE_URL: 'https://cataas.com/cat?ts=',
   RANDOM_NEKO_API_URL: 'https://nekos.best/api/v2/neko',
   BRAT_SHARE_URL: 'https://wa.me/',
-  SOCIAL_TIKTOK_URL: 'https://www.tiktok.com/@nevereraacademy',
+  SOCIAL_TIKTOK_URL: 'https://www.tiktok.com/@revicsacademy',
   SOCIAL_IMAGE_URL: 'https://i.ibb.co.com/4Rs3kt6p/20260608-150559.jpg'
 };
 
-const APP_ENV = { ...DEFAULT_APP_ENV, ...(window.NEVERERA_ENV || {}) };
+const APP_ENV = { ...DEFAULT_APP_ENV, ...(window.REVICS_ENV || {}) };
 const IMGBB_API_KEY = APP_ENV.IMGBB_API_KEY;
