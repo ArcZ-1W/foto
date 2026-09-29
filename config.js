@@ -2,8 +2,8 @@
 // Catatan: isi file ini akan terlihat oleh browser. Jangan taruh service role key,
 // password, token bot, atau rahasia private lain di sini.
 
-const SUPABASE_URL = 'https://ttocjfcslxqmwbvwiyto.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InR0b2NqZmNzbHhxbXdidndpeXRvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NDQ2NjE4OSwiZXhwIjoyMTAwMDQyMTg5fQ.owTqckpVradAY0UlZRCrgHiI1Z2SPgl3RNEvEA9W7pk';
+const SUPABASE_URL = 'https://dqitiuzhwgnhbrknzylm.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRxaXRpdXpod2duaGJya256eWxtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5MDY2NTMwNywiZXhwIjoyMTA2MjQxMzA3fQ.VukWpmY7W0urKEpJINuoc07Tht-0UoSbkDpHMGxMBYg';
 
 const DEFAULT_APP_ENV = {
   IMGBB_API_KEY: '8ddd584f7fb55ef50f87523ac0f14905',
